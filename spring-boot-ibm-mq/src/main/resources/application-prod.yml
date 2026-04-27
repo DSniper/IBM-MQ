@@ -1,0 +1,101 @@
+# ============================================================================
+# Spring Boot Application Configuration - Production Profile
+# ============================================================================
+# Cloud Production Deployment Configuration
+# ============================================================================
+
+spring.application.name=spring-boot-ibm-mq-app
+
+# Server Configuration
+server.port=8080
+server.servlet.context-path=/api
+server.compression.enabled=true
+server.compression.min-response-size=1024
+
+# ============================================================================
+# IBM MQ Configuration (Cloud/Remote)
+# ============================================================================
+# NOTE: These values should be overridden with environment variables
+# Example: export MQ_CONNECTION_NAME="mq-server.cloud.com(1414)"
+
+# Queue Manager Details (should match your cloud MQ instance)
+mq.queue-manager=${MQ_QUEUE_MANAGER:QM1}
+mq.channel=${MQ_CHANNEL:DEV.APP.SVRCONN}
+mq.connection-name=${MQ_CONNECTION_NAME:localhost(1414)}
+mq.user=${MQ_USER:app}
+mq.password=${MQ_PASSWORD:passw0rd}
+
+# Connection Pool Configuration - Production
+mq.connection-pool-size=20
+mq.connection-timeout=60000
+
+# ============================================================================
+# Spring JMS Configuration
+# ============================================================================
+
+spring.jms.provider-url=tcp://${MQ_CONNECTION_NAME:localhost:1414}
+spring.jms.user=${MQ_USER:app}
+spring.jms.password=${MQ_PASSWORD:passw0rd}
+
+# Message Listener Configuration
+spring.jms.listener.concurrency=5-10
+spring.jms.listener.acknowledge-mode=CLIENT
+
+# ============================================================================
+# Logging Configuration - Production
+# ============================================================================
+
+logging.level.root=WARN
+logging.level.com.example.ibmmq=INFO
+logging.level.org.springframework.jms=INFO
+logging.level.com.ibm.mq=INFO
+
+logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+logging.pattern.file=%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+logging.file.name=/var/log/application/app.log
+logging.file.max-size=10MB
+logging.file.max-history=10
+
+# ============================================================================
+# Application Specific Properties
+# ============================================================================
+
+# Message Configuration
+app.mq.request-queue=PROD.QUEUE.1
+app.mq.response-queue=PROD.QUEUE.2
+app.mq.error-queue=PROD.QUEUE.ERROR
+app.mq.dead-letter-queue=PROD.DLQ
+
+# Timeouts and Retries - Production
+app.message.timeout=10000
+app.message.retry-attempts=5
+app.message.retry-delay=2000
+
+# ============================================================================
+# Management and Actuators
+# ============================================================================
+
+management.endpoints.web.exposure.include=health,info,metrics,prometheus
+management.endpoint.health.show-details=when-authorized
+management.metrics.enable.jvm=true
+management.metrics.enable.process=true
+management.metrics.enable.system=true
+management.metrics.distribution.percentiles-histogram.http.server.requests=true
+
+# ============================================================================
+# Jackson JSON Configuration
+# ============================================================================
+
+spring.jackson.serialization.write-dates-as-timestamps=false
+spring.jackson.time-zone=UTC
+spring.jackson.default-property-inclusion=non_null
+
+# ============================================================================
+# SSL Configuration (Optional for HTTPS)
+# ============================================================================
+
+server.ssl.enabled=false
+# Uncomment for HTTPS:
+# server.ssl.key-store=${SSL_KEYSTORE_PATH}
+# server.ssl.key-store-password=${SSL_KEYSTORE_PASSWORD}
+# server.ssl.key-store-type=PKCS12

@@ -1,0 +1,102 @@
+# ============================================================================
+# Spring Boot Application Configuration for IBM MQ Integration
+# ============================================================================
+# Local Development Profile - PORT 8081
+# ============================================================================
+
+spring:
+  application:
+    name: spring-boot-ibm-mq-app
+
+  # JMS Configuration
+  jms:
+    provider-url: tcp://localhost:1414
+    user: app
+    password: passw0rd
+    listener:
+      concurrency: 5
+      acknowledge-mode: CLIENT
+
+  # Jackson JSON Configuration
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    time-zone: UTC
+    default-property-inclusion: non_null
+
+# ============================================================================
+# Server Configuration - LOCAL DEV
+# ============================================================================
+
+server:
+  port: 8081
+  servlet:
+    context-path: /api
+
+# server:
+#   port: 8080
+#   servlet:
+#    context-path: /api
+
+# ============================================================================
+# IBM MQ Configuration (Local Docker)
+# ============================================================================
+
+# Queue Manager Details
+mq:
+  queue-manager: QM1
+  channel: DEV.APP.SVRCONN
+  connection-name: localhost(1414)
+  user: app
+  license: accept
+  password: passw0rd
+  connection-pool-size: 10
+  connection-timeout: 30000
+
+# ============================================================================
+# Logging Configuration
+# ============================================================================
+
+logging:
+  level:
+    root: INFO
+    com.example.ibmmq: DEBUG
+    org.springframework.jms: DEBUG
+    com.ibm.mq: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# ============================================================================
+# Application Specific Properties
+# ============================================================================
+
+# Message Configuration
+app:
+  mq:
+    request-queue: DEV.QUEUE.1
+    response-queue: DEV.QUEUE.2
+    error-queue: DEV.QUEUE.ERROR
+    dead-letter-queue: DEV.DLQ
+  message:
+    timeout: 5000
+    retry-attempts: 3
+    retry-delay: 1000
+
+# ============================================================================
+# Management and Actuators (for monitoring)
+# ============================================================================
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    enable:
+      jvm: true
+      process: true
+      system: true

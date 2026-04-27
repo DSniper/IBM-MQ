@@ -1,0 +1,217 @@
+{
+  "info": {
+    "_postman_id": "ibm-mq-spring-boot-api",
+    "name": "IBM MQ Spring Boot API",
+    "description": "Complete API collection for IBM MQ Spring Boot application. Test all messaging operations, queue management, and health checks.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health & Status",
+      "item": [
+        {
+          "name": "Root API Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            },
+            "description": "Get root API information with links to dashboard and documentation"
+          },
+          "response": []
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            },
+            "description": "Check application health status"
+          },
+          "response": []
+        },
+        {
+          "name": "Test Endpoint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/test",
+              "host": ["{{base_url}}"],
+              "path": ["test"]
+            },
+            "description": "Simple test endpoint to verify API is running"
+          },
+          "response": []
+        },
+        {
+          "name": "API Documentation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/info",
+              "host": ["{{base_url}}"],
+              "path": ["info"]
+            },
+            "description": "Get complete API documentation with all available endpoints"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Message Publishing",
+      "item": [
+        {
+          "name": "Publish Text Message",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/messages/publish/text?message=Hello%20IBM%20MQ",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "messages", "publish", "text"],
+              "query": [
+                {
+                  "key": "message",
+                  "value": "Hello IBM MQ",
+                  "description": "Text message content to publish"
+                }
+              ]
+            },
+            "description": "Publish a text message to the request queue (DEV.QUEUE.1)"
+          },
+          "response": []
+        },
+        {
+          "name": "Publish JSON Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Sample JSON message from Postman\",\n  \"priority\": \"HIGH\",\n  \"category\": \"TEST\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/messages/publish/json",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "messages", "publish", "json"]
+            },
+            "description": "Publish a JSON message to the request queue (DEV.QUEUE.1)"
+          },
+          "response": []
+        },
+        {
+          "name": "Consume Text Message",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/messages/consume/text/DEV.QUEUE.1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "messages", "consume", "text", "DEV.QUEUE.1"]
+            },
+            "description": "Consume and retrieve a text message from a queue"
+          },
+          "response": []
+        },
+        {
+          "name": "Consume JSON Message",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/messages/consume/json/DEV.QUEUE.1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "messages", "consume", "json", "DEV.QUEUE.1"]
+            },
+            "description": "Consume and retrieve a JSON message from a queue"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Queue Management",
+      "item": [
+        {
+          "name": "Get Queue Depth",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/queue/depth/DEV.QUEUE.1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "queue", "depth", "DEV.QUEUE.1"]
+            },
+            "description": "Get the number of messages in a queue"
+          },
+          "response": []
+        },
+        {
+          "name": "Check Queue Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/queue/status/DEV.QUEUE.1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "queue", "status", "DEV.QUEUE.1"]
+            },
+            "description": "Check if a queue is accessible and active"
+          },
+          "response": []
+        },
+        {
+          "name": "Purge Queue",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/queue/purge/DEV.QUEUE.1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "queue", "purge", "DEV.QUEUE.1"]
+            },
+            "description": "Delete all messages from a queue (WARNING: Destructive operation)"
+          },
+          "response": []
+        },
+        {
+          "name": "Check MQ Connection Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/queue/connection/status",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "queue", "connection", "status"]
+            },
+            "description": "Check if the application is connected to IBM MQ"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8081/api",
+      "type": "string",
+      "description": "Base URL for the IBM MQ Spring Boot API"
+    }
+  ]
+}

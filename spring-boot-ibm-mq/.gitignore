@@ -1,0 +1,60 @@
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+*.iml
+
+# Build directories
+/target/
+/build/
+/out/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+dependency-reduced-pom.xml
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle
+.gradle/
+build/
+gradle-app.setting
+.gradletasknamecache
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Runtime
+*.jks
+*.p12
+*.pfx
+.DS_Store
+thumbs.db
+
+# Database
+*.db
+*.h2.db
+*.sqlite
+*.sqlite3
+
+# Docker
+.dockerignore

@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  ibm-mq:
+    image: icr.io/ibm-messaging/mq:latest
+    container_name: ibm-mq-container
+    ports:
+      - "1414:1414"      # MQ Listener Port (default)
+      - "9443:9443"      # MQ Console Port (HTTPS)
+      - "9080:9080"      # MQ Console Port (HTTP)
+    environment:
+      # Default license acceptance (required to run MQ)
+      LICENSE: accept
+      # MQ Queue Manager name
+      MQ_QMGR_NAME: QM1
+      # Default user credentials
+      MQ_APP_USER: admin
+      MQ_APP_PASSWORD: passw0rd
+      # Enable web console
+      MQ_ENABLE_METRICS: "true"
+      # Console admin credentials
+      MQ_ADMIN_PASSWORD: passw0rd
+    volumes:
+      - ibm-mq-data:/mnt/mqm
+    healthcheck:
+      test: ["CMD", "dspmq", "-m", "QM1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - mq-network
+
+volumes:
+  ibm-mq-data:
+    driver: local
+
+networks:
+  mq-network:
+    driver: bridge
