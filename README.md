@@ -489,7 +489,7 @@ docker logs -f ibm-mq-container
 
 ## 📝 License
 
-This project is provided for responsible use in enterprise environments.
+This project is provided for responsible use in non-enterprise environments / Learning Purpose.
 
 ---
 
